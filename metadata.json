@@ -1,0 +1,6 @@
+{
+  "name": "PacePulse",
+  "description": "Minimalist running cadence metronome & real-time SPM tracker with background audio & haptics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
