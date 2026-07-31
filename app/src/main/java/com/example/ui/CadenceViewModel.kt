@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.audio.SoundType
@@ -162,6 +163,8 @@ class CadenceViewModel(application: Application) : AndroidViewModel(application)
                         _suggestionType.value = SuggestionType.RATE
                     } else if (suggestionManager.shouldShowShare(count)) {
                         _suggestionType.value = SuggestionType.SHARE
+                    } else if (suggestionManager.shouldShowUpdate()) {
+                        _suggestionType.value = SuggestionType.UPDATE
                     }
                 }
             }
@@ -215,21 +218,57 @@ class CadenceViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun dismissSuggestion() {
-        if (_suggestionType.value == SuggestionType.RATE) {
-            suggestionManager.markRateShown()
-        } else if (_suggestionType.value == SuggestionType.SHARE) {
-            suggestionManager.markShareShown()
+        when (_suggestionType.value) {
+            SuggestionType.RATE -> suggestionManager.markRateShown()
+            SuggestionType.SHARE -> suggestionManager.markShareShown()
+            SuggestionType.UPDATE -> suggestionManager.markUpdateShown()
+            else -> {}
         }
         _suggestionType.value = SuggestionType.NONE
     }
 
     fun handleSuggestionAction(type: SuggestionType) {
-        if (type == SuggestionType.RATE) {
-            suggestionManager.markRated()
-            // Logic to open Play Store (not implemented yet, just dismiss for now)
-        } else if (type == SuggestionType.SHARE) {
-            suggestionManager.markShareShown()
-            // Logic to share (not implemented yet, just dismiss for now)
+        val context = getApplication<Application>()
+        when (type) {
+            SuggestionType.RATE -> {
+                suggestionManager.markRated()
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
+                }
+            }
+            SuggestionType.SHARE -> {
+                suggestionManager.markShareShown()
+                val sendIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Check out PacePulse to optimize your running cadence! https://play.google.com/store/apps/details?id=${context.packageName}")
+                    setType("text/plain")
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                context.startActivity(shareIntent)
+            }
+            SuggestionType.UPDATE -> {
+                suggestionManager.markUpdateShown()
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    // ignore
+                }
+            }
+            else -> {}
         }
         _suggestionType.value = SuggestionType.NONE
     }

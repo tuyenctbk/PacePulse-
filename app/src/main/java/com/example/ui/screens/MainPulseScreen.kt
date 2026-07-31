@@ -54,6 +54,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import com.example.ui.SuggestionType
 import androidx.compose.ui.unit.sp
 import com.example.audio.SoundType
@@ -100,8 +102,9 @@ fun MainPulseScreen(
             title = {
                 Text(
                     text = when (suggestionType) {
-                        SuggestionType.RATE -> "Enjoying the app?"
-                        SuggestionType.SHARE -> "Spread the word!"
+                        SuggestionType.RATE -> stringResource(id = R.string.rate_title)
+                        SuggestionType.SHARE -> stringResource(id = R.string.share_title)
+                        SuggestionType.UPDATE -> stringResource(id = R.string.update_title)
                         else -> ""
                     }
                 )
@@ -109,8 +112,9 @@ fun MainPulseScreen(
             text = {
                 Text(
                     text = when (suggestionType) {
-                        SuggestionType.RATE -> "If you love using this app, please take a moment to rate it on the store!"
-                        SuggestionType.SHARE -> "Help others find their rhythm! Share this app with a friend."
+                        SuggestionType.RATE -> stringResource(id = R.string.rate_message)
+                        SuggestionType.SHARE -> stringResource(id = R.string.share_message)
+                        SuggestionType.UPDATE -> stringResource(id = R.string.update_message)
                         else -> ""
                     }
                 )
@@ -119,16 +123,17 @@ fun MainPulseScreen(
                 TextButton(onClick = { viewModel.handleSuggestionAction(suggestionType) }) {
                     Text(
                         text = when (suggestionType) {
-                            SuggestionType.RATE -> "Rate Now"
-                            SuggestionType.SHARE -> "Share App"
-                            else -> "OK"
+                            SuggestionType.RATE -> stringResource(id = R.string.rate_now)
+                            SuggestionType.SHARE -> stringResource(id = R.string.share_app)
+                            SuggestionType.UPDATE -> stringResource(id = R.string.update_now)
+                            else -> stringResource(id = android.R.string.ok)
                         }
                     )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { viewModel.dismissSuggestion() }) {
-                    Text("Maybe later")
+                    Text(stringResource(id = R.string.maybe_later))
                 }
             }
         )

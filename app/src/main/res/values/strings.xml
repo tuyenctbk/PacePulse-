@@ -39,7 +39,7 @@
     <string name="running_economy_title">Improved Running Economy</string>
     <string name="running_economy_desc">Shorter ground contact time converts spring energy through tendons more efficiently, helping you run farther with less fatigue.</string>
     <string name="injury_prevention_title">Injury Prevention</string>
-    <string name="injury_prevention_desc">Over-striding is the #1 cause of shin splints and runner's knee. Matching audio pulse syncs your nervous system to safer form.</string>
+    <string name="injury_prevention_desc">Over-striding is the #1 cause of shin splints and runner\'s knee. Matching audio pulse syncs your nervous system to safer form.</string>
     <string name="progression_tips_title">Tips for Cadence Progression</string>
     <string name="tip1">Increase target by 5% at a time. If your natural pace is 160 SPM, start with 168 SPM before jumping to 180.</string>
     <string name="tip2">Focus on quick feet, not faster speed. Keep strides light and soft under your hips.</string>
@@ -47,4 +47,14 @@
     <string name="select_language">Select Language</string>
     <string name="choose_language_subtitle">Choose your preferred language for PacePulse</string>
     <string name="cancel">Cancel</string>
+    <string name="rate_title">Enjoying the app?</string>
+    <string name="rate_message">If you love using this app, please take a moment to rate it on the store!</string>
+    <string name="share_title">Spread the word!</string>
+    <string name="share_message">Help others find their rhythm! Share this app with a friend.</string>
+    <string name="update_title">Update Available</string>
+    <string name="update_message">A new version of PacePulse is available. Update now to enjoy new features!</string>
+    <string name="rate_now">Rate Now</string>
+    <string name="share_app">Share App</string>
+    <string name="update_now">Update Now</string>
+    <string name="maybe_later">Maybe later</string>
 </resources>

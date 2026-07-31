@@ -34,4 +34,15 @@ class SuggestionManager(context: Context) {
     fun markShareShown() {
         prefs.edit().putLong("last_share_shown", System.currentTimeMillis()).apply()
     }
+
+    fun shouldShowUpdate(): Boolean {
+        val lastCheck = prefs.getLong("last_update_check", 0)
+        // Check every 14 days
+        if (System.currentTimeMillis() - lastCheck < 14 * 24 * 60 * 60 * 1000L) return false
+        return true
+    }
+
+    fun markUpdateShown() {
+        prefs.edit().putLong("last_update_check", System.currentTimeMillis()).apply()
+    }
 }
